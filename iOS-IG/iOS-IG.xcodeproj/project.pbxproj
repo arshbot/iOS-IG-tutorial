@@ -300,6 +300,7 @@
 				C1FC46711DC7BBD40051D5C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
