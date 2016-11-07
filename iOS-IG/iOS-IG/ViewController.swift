@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -40,15 +41,40 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         888,
         999
     ]
-    
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tv.delegate = self
         tv.dataSource = self
+        
+        // Create a GMSCameraPosition that tells the map to display the
+        // coordinate -33.86,151.20 at zoom level 6.
+        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height), camera: camera)
+        mapView.isMyLocationEnabled = true
+        
+        //Now that the mapView is created we need to staple it to our view correctly
+        setupViews(mapView: mapView)
+        
+        // Creates a marker in the center of the map.
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
+        marker.title = "Sydney"
+        marker.snippet = "Australia"
+        marker.map = mapView
+    
     }
     
+    func setupViews(mapView: UIView){
+        view.addSubview(mapView)
+        mapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: tv.topAnchor).isActive = true
+        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        mapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+    }
+
+
     //Rarely used
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
