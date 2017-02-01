@@ -8,8 +8,9 @@
 
 import UIKit
 import GoogleMaps
+import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
 
     //IB outlet created by option + dragging from storyboard to this file
     @IBOutlet weak var tv: UITableView!
@@ -29,33 +30,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     ]
     
     //Dummy GPS Data. It literally does not matter what is here, just to prove that data can be drawn
-    var dummyGPS = [
-        000,
-        111,
-        222,
-        333,
-        444,
-        555,
-        666,
-        777,
-        888,
-        999
-    ]
+    var GPSData:[CLLocation] = []
  
+    let locationManager = CLLocationManager()
+    var mapView: GMSMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tv.delegate = self
         tv.dataSource = self
         
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
+        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        
+        
         // Create a GMSCameraPosition that tells the map to display the
         // coordinate -33.86,151.20 at zoom level 6.
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height), camera: camera)
+        //let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        mapView = GMSMapView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height))
         mapView.isMyLocationEnabled = true
+        view.addSubview(mapView)
         
-        //Now that the mapView is created we need to staple it to our view correctly
-        setupViews(mapView: mapView)
+        mapView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
+        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        mapView.bottomAnchor.constraint(equalTo: tv.topAnchor).isActive = true
         
         // Creates a marker in the center of the map.
         let marker = GMSMarker()
@@ -63,7 +67,67 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         marker.title = "Sydney"
         marker.snippet = "Australia"
         marker.map = mapView
+        
+        setupNavbar()
+        
+//        let currentLocation = GMSCameraPosition.camera()
+//        mapView.camera = atlanta
     
+        
+        
+    
+    
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        var userLocation:CLLocation = locations[0]
+        
+        self.mapView.camera = GMSCameraPosition.camera(withLatitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude, zoom: 6.0)
+
+        
+        GPSData.append(contentsOf: locations)
+        tv.reloadData()
+    }
+    
+//    //func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+//        var userLocation:CLLocation = locations[0] as! CLLocation
+//        //Do What ever you want with it
+//        
+//        // Create a GMSCameraPosition that tells the map to display the
+//        // coordinate -33.86,151.20 at zoom level 6.
+////        let camera = GMSCameraPosition.camera(withLatitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude, zoom: 6.0)
+////        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height), camera: camera)
+////        mapView.isMyLocationEnabled = true
+//        
+//        //Now that the mapView is created we need to staple it to our view correctly
+//        setupViews(mapView: mapView)
+//        
+//        // Creates a marker in the center of the map.
+//        let marker = GMSMarker()
+//        marker.position = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+//        marker.title = "Current Location"
+//        marker.snippet = "You in this b right now"
+//        marker.map = mapView
+//        
+//        let path = GMSMutablePath()
+//        
+//        for m in locations {
+//        
+//            path.add(CLLocationCoordinate2D(latitude: m.coordinate.latitude, longitude: m.coordinate.longitude))
+//            
+//            let mutablePath = GMSMutablePath()
+//        }
+//    
+//        path.add(CLLocationCoordinate2D(latitude: -33.85, longitude: 151.20))
+//        path.add(CLLocationCoordinate2D(latitude: -33.70, longitude: 151.40))
+//        path.add(CLLocationCoordinate2D(latitude: -33.73, longitude: 151.41))
+//        
+//        let polyline = GMSPolyline(path: path)
+//    }
+
+    func setupNavbar() {
+        navigationItem.title = "Locations"
+        
     }
     
     func setupViews(mapView: UIView){
@@ -73,7 +137,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         mapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
-
+    
 
     //Rarely used
     override func didReceiveMemoryWarning() {
@@ -83,7 +147,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //Returns number of cells, in this case 10
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return GPSData.count-1
     }
     
     //Constructs the cell using the cell class at the bottom and retunrs said cell
@@ -91,8 +155,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
         
         cell.index.text = String(indexPath.row)
-        cell.Time.text = dummyTime[indexPath.row]
-        cell.GPS.text = String(dummyGPS[indexPath.row])
+        let date = NSDate()
+        let calendar = NSCalendar.current
+        let hour = calendar.component(.hour, from: date as Date)
+        let minutes = calendar.component(.minute, from: date as Date)
+        cell.Time.text = "\(hour):\(minutes)"
+        cell.GPS.text = String(describing: GPSData.reversed()[indexPath.row].coordinate.latitude)
+    
+        
         
         return cell
     }
