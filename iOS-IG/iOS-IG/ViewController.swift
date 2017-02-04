@@ -22,32 +22,37 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //Set the delegate for the tableview objects as self, or this object
         tv.delegate = self
         tv.dataSource = self
         
+        //Requesting authrization from the user before implementing locationManager
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
+        
+        //Setting delegates and starting the GPS
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-        
         
         // Create a GMSCameraPosition that tells the map to display the
         // coordinate -33.86,151.20 at zoom level 6.
-        //let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        let camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
+        
+        //Defining the mapView object and initing it to the current screen size
         mapView = GMSMapView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height))
         mapView.isMyLocationEnabled = true
         view.addSubview(mapView)
         
+        //Settings anchors for the mapView object
         mapView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
         mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         mapView.bottomAnchor.constraint(equalTo: tv.topAnchor).isActive = true
         
-        // Creates a marker in the center of the map.
+        // Creates a marker in Sydney for some reason
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
         marker.title = "Sydney"
