@@ -15,25 +15,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //IB outlet created by option + dragging from storyboard to this file
     @IBOutlet weak var tv: UITableView!
     
-    //Dummy time data, DON'T EVER DO THIS IN PRODUCTION
-    var dummyTime: [String] = [
-        "0000",
-        "1:11",
-        "2:22",
-        "3:33",
-        "4:44",
-        "5:55",
-        "6:66",
-        "7:77",
-        "8:88",
-        "9:99"
-    ]
-    
     //Dummy GPS Data. It literally does not matter what is here, just to prove that data can be drawn
     var GPSData:[CLLocation] = []
- 
     let locationManager = CLLocationManager()
     var mapView: GMSMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -69,61 +55,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         marker.map = mapView
         
         setupNavbar()
-        
-//        let currentLocation = GMSCameraPosition.camera()
-//        mapView.camera = atlanta
-    
-        
-        
-    
     
     }
-    
+    let path = GMSMutablePath()
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var userLocation:CLLocation = locations[0]
         
         self.mapView.camera = GMSCameraPosition.camera(withLatitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude, zoom: 6.0)
 
+        for coord in locations{
+            path.add(CLLocationCoordinate2D(latitude: coord.coordinate.latitude, longitude: coord.coordinate.longitude))
+        }
+        let polyline = GMSPolyline(path: path)
         
         GPSData.append(contentsOf: locations)
         tv.reloadData()
     }
-    
-//    //func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-//        var userLocation:CLLocation = locations[0] as! CLLocation
-//        //Do What ever you want with it
-//        
-//        // Create a GMSCameraPosition that tells the map to display the
-//        // coordinate -33.86,151.20 at zoom level 6.
-////        let camera = GMSCameraPosition.camera(withLatitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude, zoom: 6.0)
-////        let mapView = GMSMapView.map(withFrame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height), camera: camera)
-////        mapView.isMyLocationEnabled = true
-//        
-//        //Now that the mapView is created we need to staple it to our view correctly
-//        setupViews(mapView: mapView)
-//        
-//        // Creates a marker in the center of the map.
-//        let marker = GMSMarker()
-//        marker.position = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
-//        marker.title = "Current Location"
-//        marker.snippet = "You in this b right now"
-//        marker.map = mapView
-//        
-//        let path = GMSMutablePath()
-//        
-//        for m in locations {
-//        
-//            path.add(CLLocationCoordinate2D(latitude: m.coordinate.latitude, longitude: m.coordinate.longitude))
-//            
-//            let mutablePath = GMSMutablePath()
-//        }
-//    
-//        path.add(CLLocationCoordinate2D(latitude: -33.85, longitude: 151.20))
-//        path.add(CLLocationCoordinate2D(latitude: -33.70, longitude: 151.40))
-//        path.add(CLLocationCoordinate2D(latitude: -33.73, longitude: 151.41))
-//        
-//        let polyline = GMSPolyline(path: path)
-//    }
 
     func setupNavbar() {
         navigationItem.title = "Locations"
