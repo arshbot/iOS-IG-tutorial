@@ -11,27 +11,18 @@ import GoogleMaps
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
-
-    //IB outlet created by option + dragging from storyboard to this file
     @IBOutlet weak var tv: UITableView!
     
-    //Dummy GPS Data. It literally does not matter what is here, just to prove that data can be drawn
     var GPSData:[CLLocation] = []
     let locationManager = CLLocationManager()
     var mapView: GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Set the delegate for the tableview objects as self, or this object
         tv.delegate = self
         tv.dataSource = self
-        
-        //Requesting authrization from the user before implementing locationManager
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
-        
-        //Setting delegates and starting the GPS
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -68,22 +59,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tv.reloadData()
     }
     
-    
-    //Rarely used
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    //Returns number of cells, in this case 10
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GPSData.count-1
     }
     
-    //Constructs the cell using the cell class at the bottom and retunrs said cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
-        
         cell.index.text = String(indexPath.row)
         let date = NSDate()
         let calendar = NSCalendar.current
@@ -91,12 +72,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let minutes = calendar.component(.minute, from: date as Date)
         cell.Time.text = "\(hour):\(minutes)"
         cell.GPS.text = String(describing: GPSData.reversed()[indexPath.row].coordinate.latitude)
-    
-        
-        
         return cell
     }
-    
     
 }
 
