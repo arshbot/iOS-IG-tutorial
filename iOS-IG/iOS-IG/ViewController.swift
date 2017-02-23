@@ -45,12 +45,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //Defining the mapView object and initing it to the current screen size
         mapView = GMSMapView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - tv.bounds.height))
         mapView.isMyLocationEnabled = true
-        view.addSubview(mapView)
-        
-        //Settings anchors for the mapView object
-        mapView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: tv.topAnchor).isActive = true
         
         // Creates a marker in Sydney for some reason
         let marker = GMSMarker()
@@ -59,15 +53,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         marker.snippet = "Australia"
         marker.map = mapView
         
-        setupNavbar()
-    
     }
+    
     let path = GMSMutablePath()
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         var userLocation:CLLocation = locations[0]
         
-        self.mapView.camera = GMSCameraPosition.camera(withLatitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude, zoom: 6.0)
-
         for coord in locations{
             path.add(CLLocationCoordinate2D(latitude: coord.coordinate.latitude, longitude: coord.coordinate.longitude))
         }
@@ -76,21 +67,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         GPSData.append(contentsOf: locations)
         tv.reloadData()
     }
-
-    func setupNavbar() {
-        navigationItem.title = "Locations"
-        
-    }
     
-    func setupViews(mapView: UIView){
-        view.addSubview(mapView)
-        mapView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        mapView.bottomAnchor.constraint(equalTo: tv.topAnchor).isActive = true
-        mapView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        mapView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-    }
     
-
     //Rarely used
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -117,11 +95,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         return cell
-    }
-    
-    //We'll use this later
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
     
     
