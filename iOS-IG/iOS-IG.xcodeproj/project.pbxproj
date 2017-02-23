@@ -10,7 +10,6 @@
 		1E65B5169AC8F77F9DDE6F2B /* Pods_iOS_IG.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D9DE00E89475F952F0DF8C8 /* Pods_iOS_IG.framework */; };
 		C1044D521DD12BAC00650360 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1044D511DD12BAC00650360 /* CoreLocation.framework */; };
 		C16172D61DDA730800D7FB0C /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C16172D41DDA730800D7FB0C /* Model.xcdatamodeld */; };
-		C16172D81DDA74FB00D7FB0C /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C16172D71DDA74FB00D7FB0C /* AddLocationViewController.swift */; };
 		C1FC46611DC7BBD40051D5C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FC46601DC7BBD40051D5C9 /* AppDelegate.swift */; };
 		C1FC46631DC7BBD40051D5C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FC46621DC7BBD40051D5C9 /* ViewController.swift */; };
 		C1FC46661DC7BBD40051D5C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1FC46641DC7BBD40051D5C9 /* Main.storyboard */; };
@@ -24,7 +23,6 @@
 		A1A4D1987BD25997267D1602 /* Pods-iOS-IG.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-IG.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-IG/Pods-iOS-IG.debug.xcconfig"; sourceTree = "<group>"; };
 		C1044D511DD12BAC00650360 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C16172D51DDA730800D7FB0C /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		C16172D71DDA74FB00D7FB0C /* AddLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		C1FC465D1DC7BBD40051D5C9 /* iOS-IG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-IG.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1FC46601DC7BBD40051D5C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1FC46621DC7BBD40051D5C9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				C1FC46601DC7BBD40051D5C9 /* AppDelegate.swift */,
 				C1FC46621DC7BBD40051D5C9 /* ViewController.swift */,
 				C1FC46641DC7BBD40051D5C9 /* Main.storyboard */,
-				C16172D71DDA74FB00D7FB0C /* AddLocationViewController.swift */,
 				C1FC46671DC7BBD40051D5C9 /* Assets.xcassets */,
 				C1FC46691DC7BBD40051D5C9 /* LaunchScreen.storyboard */,
 				C1FC466C1DC7BBD40051D5C9 /* Info.plist */,
@@ -225,7 +222,6 @@
 				C1FC46631DC7BBD40051D5C9 /* ViewController.swift in Sources */,
 				C1FC46611DC7BBD40051D5C9 /* AppDelegate.swift in Sources */,
 				C16172D61DDA730800D7FB0C /* Model.xcdatamodeld in Sources */,
-				C16172D81DDA74FB00D7FB0C /* AddLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
