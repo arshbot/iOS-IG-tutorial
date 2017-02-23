@@ -11,18 +11,14 @@ import GoogleMaps
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
-
-    //IB outlet created by option + dragging from storyboard to this file
     @IBOutlet weak var tv: UITableView!
     
-    //Dummy GPS Data. It literally does not matter what is here, just to prove that data can be drawn
+    //Now we replace the dummy GPS data with actual GPS data! Hooray!
     var GPSData:[CLLocation] = []
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //Set the delegate for the tableview objects as self, or this object
         tv.delegate = self
         tv.dataSource = self
         
@@ -36,16 +32,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        
-        // Create a GMSCameraPosition that tells the map to display the
-        // coordinate -33.86,151.20 at zoom level 6.
-        
-        //Defining the mapView object and initing it to the current screen size
-        
-        //Settings anchors for the mapView object
-        
-        // Creates a marker in Sydney for some reason
-    
     }
     let path = GMSMutablePath()
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -53,12 +39,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tv.reloadData()
     }
     
-    //Returns number of cells, in this case 10
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return GPSData.count-1
     }
     
-    //Constructs the cell using the cell class at the bottom and retunrs said cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! TableViewCell
         
