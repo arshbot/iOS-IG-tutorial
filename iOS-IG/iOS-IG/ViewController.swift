@@ -32,7 +32,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             locationManager.startUpdatingLocation()
         }
     }
-    let path = GMSMutablePath()
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         GPSData.append(contentsOf: locations)
         tv.reloadData()
