@@ -35,7 +35,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        //Adds location data to the GPSData list
         GPSData.append(contentsOf: locations)
+        
+        //Once added, we need to refresh the tableview
         tv.reloadData()
     }
     
