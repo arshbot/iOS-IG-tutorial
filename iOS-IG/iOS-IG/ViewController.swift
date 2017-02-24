@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import GoogleMaps
+import GoogleMaps //If this isn't here, everything breaks for some reason ¯\_(ツ)_/¯
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
