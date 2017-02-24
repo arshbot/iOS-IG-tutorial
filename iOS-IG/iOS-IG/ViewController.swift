@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps //If this isn't here, everything breaks for some reason ¯\_(ツ)_/¯
 import CoreData
 
+//IMPORTANT: Make sure your Info.plist looks like this before running! https://imgur.com/gallery/6SI0D
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     @IBOutlet weak var tv: UITableView!
     
