@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleMaps
 import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
